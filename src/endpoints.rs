@@ -11,13 +11,13 @@ pub fn get_config(store: State<Arc<Mutex<Server>>>, key: String) -> String {
     guard.local_store.get(&key)
 }
 
-#[put("/config/<repo>/<value>")]
-pub fn put_config(store: State<Arc<Mutex<Server>>>, repo: String, value: String) {
+#[put("/config/<key>/<value>")]
+pub fn put_config(store: State<Arc<Mutex<Server>>>, key: String, value: String) {
     let mut guard = match store.lock() {
         Err(poisoned) => poisoned.into_inner(),
         Ok(lock) => lock
     };
-    guard.local_store.add(&repo, value)
+    guard.local_store.add(&key, value)
 }
 
 #[get("/config/all")]
